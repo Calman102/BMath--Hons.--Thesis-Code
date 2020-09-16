@@ -69,6 +69,25 @@ def τ(b, a, o, plot=False):
         plt.show()    
         
     return b_dash
+
+
+def collect_belief_points(b_0, n):
+    """
+    Collects a set of reachable belief points.
+    """
+    B = [b_0]
+    for _ in range(2*len(A)):
+        b_dash = b_0
+        for _ in range(n-1):
+            b = b_dash.copy()
+            s = np.random.choice(S, p=b)
+            a = 4 if s < 2 else 0  # MDP Optimal Policy
+            s_dash = np.random.choice(S, p=P[s,a])
+            o = np.random.choice(O, p=Obs[s_dash,a])
+            b_dash =  τ(b,a,o)
+            if True not in [np.array_equal(b, b_dash) for b in B]:
+                B.append(b_dash)
+    return B
     
     
 def backup(b, Γ, γ):
@@ -145,25 +164,6 @@ def PBVI(ε, γ):
         print(f"Δ = {Δ}\n")
         n += 1
     return V, π
-        
-
-def collect_belief_points(b_0, n):
-    """
-    Collects a set of reachable belief points.
-    """
-    B = [b_0]
-    for _ in range(2*len(A)):
-        b_dash = b_0
-        for _ in range(n-1):
-            b = b_dash.copy()
-            s = np.random.choice(S, p=b)
-            a = 4 if s < 2 else 0  # MDP Optimal Policy
-            s_dash = np.random.choice(S, p=P[s,a])
-            o = np.random.choice(O, p=Obs[s_dash,a])
-            b_dash =  τ(b,a,o)
-            if True not in [np.array_equal(b, b_dash) for b in B]:
-                B.append(b_dash)
-    return B
 
     
 if __name__ == "__main__":
