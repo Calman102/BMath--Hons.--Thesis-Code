@@ -1,2 +1,5 @@
 
 desktop.ini
+Examples/PolicyIteration.py
+Examples/ValueIteration.py
+*.pyc
