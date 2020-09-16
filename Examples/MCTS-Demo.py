@@ -1,7 +1,6 @@
 import numpy as np
 from copy import deepcopy
 from mcts import mcts
-from scipy.stats import mode
 
 
 def P_func(s, a, s_dash):
@@ -17,7 +16,7 @@ def P_func(s, a, s_dash):
         
 
 def R_func(s, a, s_dash):
-    """ Function representation of the expected reward. """
+    """ Function representation of the exact reward. """
     if s == 3:
         return 0
     elif s_dash == s + 1:
@@ -26,9 +25,16 @@ def R_func(s, a, s_dash):
         return -10
 
 
+# State Space
 S = [0, 1, 2, 3]
+
+# Action Space
 A = [0, 1, 2, 3, 4]
+
+# Transition Probabilities
 P = np.array([[[P_func(s, a, s_dash) for s_dash in S] for a in A] for s in S])
+
+# Exact Reward Function
 R = np.array([[[R_func(s, a, s_dash) for s_dash in S] for a in A] for s in S])
 
 
