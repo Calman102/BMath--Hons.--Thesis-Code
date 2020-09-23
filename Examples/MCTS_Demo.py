@@ -1,18 +1,7 @@
 import numpy as np
 from copy import deepcopy
 from mcts import mcts
-
-
-def P_func(s, a, s_dash):
-    """ Function representation of the transition probabilities. """
-    if s == 3 and s_dash == 3:
-        return 1
-    elif s_dash == s + 1:
-        return (a + 1) / 10
-    elif (s == 0 and s_dash == 0) or (s_dash == s - 1 and s != 3):
-        return 1 - (a + 1) / 10
-    else:
-        return 0
+from Guessing_Game_MDP import S, A, P
         
 
 def R_func(s, a, s_dash):
@@ -23,16 +12,6 @@ def R_func(s, a, s_dash):
         return 50 * (s + 1)**2 / (a + 1)**2 - 10
     else:
         return -10
-
-
-# State Space
-S = [0, 1, 2, 3]
-
-# Action Space
-A = [0, 1, 2, 3, 4]
-
-# Transition Probabilities
-P = np.array([[[P_func(s, a, s_dash) for s_dash in S] for a in A] for s in S])
 
 # Exact Reward Function
 R = np.array([[[R_func(s, a, s_dash) for s_dash in S] for a in A] for s in S])
