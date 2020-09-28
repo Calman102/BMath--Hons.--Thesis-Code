@@ -1,3 +1,6 @@
+import numpy as np
+
+
 class MDPThresholdPolicy:
     def __init__(self, S, A, thresholds):
         self.S = S.copy()
