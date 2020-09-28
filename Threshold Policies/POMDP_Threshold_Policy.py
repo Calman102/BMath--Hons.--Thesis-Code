@@ -39,4 +39,4 @@ class POMDPThresholdPolicy:
         A = self.A.copy()
         η_thresholds = self.η_thresholds.copy()
         q = self.q
-        return MDPThresholdPolicy(A, η_thresholds, q)
+        return POMDPThresholdPolicy(A, η_thresholds, q)
