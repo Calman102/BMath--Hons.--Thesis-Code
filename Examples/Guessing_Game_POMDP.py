@@ -2,7 +2,7 @@ from Guessing_Game_MDP import S, A, P, R
 
 import numpy as np
 
- 
+
 def Obs_func(s_dash, a, o):
     """ Function representation of the observation probabilities. """
     if o == 3 and s_dash == 3:
