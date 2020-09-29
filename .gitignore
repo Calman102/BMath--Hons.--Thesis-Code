@@ -3,3 +3,4 @@ desktop.ini
 Examples/PolicyIteration.py
 Examples/ValueIteration.py
 *.pyc
+Examples/Guessing_Game_to_PomdpX.py

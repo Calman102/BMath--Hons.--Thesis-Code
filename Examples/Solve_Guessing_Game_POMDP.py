@@ -60,12 +60,13 @@ def backup(b, Γ, γ):
     return (β, a)
     
     
-def PBVI(ε, γ):
+def PBVI(ε, γ, b_0="uniform"):
     """
     Point-Based Value Iteration using the Perseus backup stage.
-    Takes a tolerance ε and discount factor γ.
+    Takes a tolerance ε, discount factor γ and initial belief b_0.
     """
-    b_0 = np.array([0.5, 0.5, 0, 0])
+    if b_0 == "uniform":
+        b_0 = np.ones(len(S)) / len(S)
     B = collect_belief_points(b_0, 10)
     
     π_unchanged = 0
@@ -119,5 +120,7 @@ def PBVI(ε, γ):
     
 if __name__ == "__main__":
     ε = 10**(-3)
-    V, π = PBVI(10**(-3), 0.95)
+    γ = 0.95
+    b_0 = np.array([0.5, 0.5, 0, 0])
+    V, π = PBVI(ε, γ, b_0)
     
