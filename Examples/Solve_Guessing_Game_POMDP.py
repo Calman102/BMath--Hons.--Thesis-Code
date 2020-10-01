@@ -103,7 +103,7 @@ def PBVI(ε, γ, b_0="uniform"):
             V_π[tuple(b)] = max((b.dot(α[0]), α[1]) for α in Γ)
             V[tuple(b)] = V_π[tuple(b)][0]
             π[tuple(b)] = V_π[tuple(b)][1]
-        π_unchanged = π_unchanged + 1 if π == π_dash else 0 
+        π_unchanged = π_unchanged + 1 if π == π_dash else 0
         Δ = max(abs(V[tuple(b)] - V_dash[tuple(b)]) for b in B)
         if Δ < 1e-5 or π_unchanged == 10 or n == 5000:
             stop = time.time()

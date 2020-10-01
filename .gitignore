@@ -4,3 +4,5 @@ Examples/PolicyIteration.py
 Examples/ValueIteration.py
 *.pyc
 Examples/Guessing_Game_to_PomdpX.py
+Examples/DESPOT_Action_Extraction.py
+Examples/Guessing_Game_POMDP_DESPOT (Old).txt
