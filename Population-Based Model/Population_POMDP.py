@@ -91,7 +91,7 @@ def rollout(b_0, π, γ, depth=10**2, start=None, loop=1, console=False):
                 print(f"Population: {s_dash}")
                 print(f"P(S > η) = {sum(b[π.η_thresholds[0]+1:])}")
             o = s - s_dash
-            # o = np.random.choice(Ω, p=O[s_dash][a])
+            # o = np.random.choice(O, p=Obs[s_dash][a])
             # b = τ_hat(b, a, o, 1000, plot=True)
             b = τ(b, a, o, plot=console)
             s = s_dash
