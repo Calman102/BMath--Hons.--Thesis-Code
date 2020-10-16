@@ -126,7 +126,7 @@ class ObservationProbability:
             return 0
         
         # observations after interference 
-        b = self.b if b == None else b
+        b = self.b if type(b) == type(None) else b
         if a == 1:
             x = self.P[o + s_dash][a][s_dash] * b[o + s_dash]
             y = (self.P.T @ b)[s_dash][a]
