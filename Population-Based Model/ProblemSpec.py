@@ -113,7 +113,7 @@ class ObservationProbability:
             # Assuming a uniform prior
             self.b = 1/len(S) * np.ones(len(S))
     
-    def Obs(self, s_dash, a, o):
+    def Obs(self, s_dash, a, o, b=None):
         """
         Probability of observing o after taking action a and transitioning to s'.
         """
@@ -126,9 +126,10 @@ class ObservationProbability:
             return 0
         
         # observations after interference 
-        elif a == 1:
-            x = self.P[o + s_dash][a][s_dash] * self.b[o + s_dash]
-            y = (self.P.T @ self.b)[s_dash][a]
+        b = self.b if b == None else b
+        if a == 1:
+            x = self.P[o + s_dash][a][s_dash] * b[o + s_dash]
+            y = (self.P.T @ b)[s_dash][a]
             return x / y
         
     def simulated(self):
