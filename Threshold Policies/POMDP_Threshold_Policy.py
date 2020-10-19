@@ -2,19 +2,19 @@ import numpy as np
 
 
 class POMDPThresholdPolicy:
-    def __init__(self, A, η_thresholds, α):
+    def __init__(self, A, η_thresholds, q):
         self.A = A.copy()
         self.η_thresholds = η_thresholds
-        self.α = α
+        self.q = q
         
         self.τ = {}
         
-    def update(self, η=None, α=None, η_index=-1):
+    def update(self, η=None, q=None, η_index=-1):
         self.τ.clear()
         if η != None:
             self.η_thresholds[η_index] = η
-        if α != None:
-            self.α = α
+        if q != None:
+            self.q = q
         
     def add_threshold(self, η=None):
         self.τ.clear()
@@ -24,19 +24,27 @@ class POMDPThresholdPolicy:
     def add_action(self):
         self.A.append(self.A[-1]+1)
         
+    def get_mean(self, b):
+        return np.sum(np.arange(len(b)) * b)
+    
+    def get_sd(self, b):
+        m2 = np.sum(np.arange(len(b))**2 * b)
+        return np.sqrt(m2 - self.get_mean(b)**2)
+        
     def get_action(self, b):
-        if self.τ.get(tuple(b)) == None:
-            for i in range(len(self.η_thresholds)):
+        if self.τ.get(tuple(b)) is None:
+            for i in reversed(range(len(self.η_thresholds))):
                 η = int(self.η_thresholds[i])
-                p = np.sum(b[η+1:])
-                if p >= self.α:
+                val = self.get_mean(b) - self.q * self.get_sd(b)
+                if val >= η:
                     self.τ[tuple(b)] = self.A[i+1]
-                else:
-                    self.τ[tuple(b)] = self.A[0]
+                    break
+            else:
+                self.τ[tuple(b)] = self.A[0]
         return self.τ[tuple(b)]                   
             
     def copy(self):
         A = self.A.copy()
         η_thresholds = self.η_thresholds.copy()
-        α = self.α
-        return POMDPThresholdPolicy(A, η_thresholds, α)
+        q = self.q
+        return POMDPThresholdPolicy(A, η_thresholds, q)

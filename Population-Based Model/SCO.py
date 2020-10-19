@@ -42,16 +42,16 @@ def SCO(S, N, ς, w, B, MaxTry=5, T=10):
                 σ[i] = w * np.abs(X[i] - X[I])
                 μ = np.random.permutation(2)
                 
-                for Try in range(MaxTry):
+                for Try in range(MaxTry):  # optimising the threshold
                     Z = np.random.normal()
                     Y_dash[μ[0]] = max(0, min(100, Y[μ[0]] + σ[i][μ[0]] * Z))
                     if S(Y_dash) > S(Y):
                         Y = Y_dash.copy()
                         break
                     
-                for Try in range(MaxTry):
+                for Try in range(MaxTry):  # optimising the quantile
                     Z = np.random.normal()
-                    Y_dash[μ[1]] = max(0, min(1, Y[μ[1]] + σ[i][μ[1]] * Z))
+                    Y_dash[μ[1]] = max(-3, min(3, Y[μ[1]] + σ[i][μ[1]] * Z))
                     if S(Y_dash) > S(Y):
                         Y = Y_dash.copy()
                         break
@@ -63,9 +63,9 @@ def SCO(S, N, ς, w, B, MaxTry=5, T=10):
         t = t + 1
         if V[t] > best[1]:
             best = (X_best[t], V[t])
-            print(f"Best value:               {best[1]}")
-            print(f"Best threshold:           {best[0][0]}")
-            print(f"Best significance level:  {best[0][1]}")
+            print(f"Best value:      {best[1]}")
+            print(f"Best threshold:  {best[0][0]}")
+            print(f"Best quantile:   {best[0][1]}")
         
         if t == T:
             break
