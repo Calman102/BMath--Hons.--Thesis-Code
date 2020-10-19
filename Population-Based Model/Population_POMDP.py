@@ -116,4 +116,7 @@ if __name__ == "__main__":
     
     f = lambda X: rollout(b, POMDPThresholdPolicy(A, [X[0]], X[1]), 0.95, loop=10)
     Ψ, V = SCO(f, 10, 0.6, 0.5, [np.array([0, -3]), np.array([100, 3])], MaxTry=3, T=10)
-    print(Ψ, V)   
+    print(Ψ)
+    print(V)
+    print(f"Mean Value:     {np.mean(list(V.values()))}")
+    print(f"Standard Error: {np.std(list(V.values())) / np.sqrt(len(V))}")
