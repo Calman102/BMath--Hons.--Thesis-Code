@@ -7,7 +7,7 @@ import numpy as np
 
 
 # Initial Belief State
-b = np.array([np.exp(-s/25) for s in S])  
+b = np.array([norm(50,10).pdf(s) for s in S])  
 b = 1/np.sum(b) * b
 
 R = Reward().as_matrix(exact=True)
@@ -88,8 +88,9 @@ def rollout(b_0, π, γ, depth=10**2, start=None, loop=1, console=False):
                 print("Extinction!")
             if console:
                 print("-" * 50)
-                print(f"Population: {s_dash}")
-                print(f"P(S > η) = {sum(b[π.η_thresholds[0]+1:])}")
+                print(f"Population:  {s_dash}")
+                print(f"mean(S):     {π.get_mean(b)}")
+                print(f"sd(S):       {π.get_sd(b)}")
             o = s - s_dash
             # o = np.random.choice(O, p=Obs[s_dash][a])
             # b = τ_hat(b, a, o, 1000, plot=True)
@@ -111,6 +112,8 @@ if __name__ == "__main__":
     plt.show()
     print("\n")
     
+    np.random.seed(123)
+    
     f = lambda X: rollout(b, POMDPThresholdPolicy(A, [X[0]], X[1]), 0.95, loop=10)
-    Ψ, V = SCO(f, 10, 0.6, 0.5, [np.array([0, 0]), np.array([100, 1])], MaxTry=3, T=10)
+    Ψ, V = SCO(f, 10, 0.6, 0.5, [np.array([0, -3]), np.array([100, 3])], MaxTry=3, T=10)
     print(Ψ, V)   
