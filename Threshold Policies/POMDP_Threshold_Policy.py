@@ -4,10 +4,7 @@ import numpy as np
 class POMDPThresholdPolicy:
     def __init__(self, A, η_thresholds, q):
         self.A = A.copy()
-        if type(thresholds) == int:
-            self.thresholds = [thresholds]
-        else:
-            self.thresholds = thresholds
+        self.thresholds = list(thresholds)
         self.q = q
         
         self.ψ = {}

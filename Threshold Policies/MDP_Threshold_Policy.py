@@ -5,10 +5,7 @@ class MDPThresholdPolicy:
     def __init__(self, S, A, thresholds):
         self.S = S.copy()
         self.A = A.copy()
-        if type(thresholds) == int:
-            self.thresholds = [thresholds]
-        else:
-            self.thresholds = thresholds
+        self.thresholds = list(thresholds)
         
     def asarray(self):
         arr = np.zeros(len(self.S))
