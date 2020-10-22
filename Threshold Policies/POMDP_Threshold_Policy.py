@@ -4,20 +4,23 @@ import numpy as np
 class POMDPThresholdPolicy:
     def __init__(self, A, η_thresholds, q):
         self.A = A.copy()
-        self.η_thresholds = η_thresholds
+        if type(thresholds) == int:
+            self.thresholds = [thresholds]
+        else:
+            self.thresholds = thresholds
         self.q = q
         
-        self.τ = {}
+        self.Ψ = {}
         
     def update(self, η=None, q=None, η_index=-1):
-        self.τ.clear()
+        self.Ψ.clear()
         if η != None:
             self.η_thresholds[η_index] = η
         if q != None:
             self.q = q
         
     def add_threshold(self, η=None):
-        self.τ.clear()
+        self.Ψ.clear()
         if η != None:
             self.η_thresholds.append(η)
             
@@ -32,16 +35,16 @@ class POMDPThresholdPolicy:
         return np.sqrt(m2 - self.get_mean(b)**2)
         
     def get_action(self, b):
-        if self.τ.get(tuple(b)) is None:
+        if self.Ψ.get(tuple(b)) is None:
             for i in reversed(range(len(self.η_thresholds))):
                 η = int(self.η_thresholds[i])
                 val = self.get_mean(b) - self.q * self.get_sd(b)
                 if val >= η:
-                    self.τ[tuple(b)] = self.A[i+1]
+                    self.Ψ[tuple(b)] = self.A[i+1]
                     break
             else:
-                self.τ[tuple(b)] = self.A[0]
-        return self.τ[tuple(b)]                   
+                self.Ψ[tuple(b)] = self.A[0]
+        return self.Ψ[tuple(b)]                   
             
     def copy(self):
         A = self.A.copy()
