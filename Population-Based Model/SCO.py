@@ -51,7 +51,7 @@ def SCO(S, N, ς, w, B, MaxTry=5, T=10):
                     
                 for Try in range(MaxTry):  # optimising the quantile
                     Z = np.random.normal()
-                    Y_dash[μ[1]] = max(-3, min(3, Y[μ[1]] + σ[i][μ[1]] * Z))
+                    Y_dash[μ[1]] = Y[μ[1]] + σ[i][μ[1]] * Z
                     if S(Y_dash) > S(Y):
                         Y = Y_dash.copy()
                         break
