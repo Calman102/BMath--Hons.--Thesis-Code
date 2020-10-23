@@ -24,18 +24,18 @@ class POMDPThresholdPolicy:
     def add_action(self):
         self.A.append(self.A[-1]+1)
         
-    def get_mean(self, b):
+    def mean(self, b):
         return np.sum(np.arange(len(b)) * b)
     
-    def get_sd(self, b):
-        m2 = np.sum(np.arange(len(b))**2 * b)
-        return np.sqrt(m2 - self.get_mean(b)**2)
+    def std(self, b):
+        m = np.sum(np.arange(len(b))**2 * b)
+        return np.sqrt(m - self.mean(b)**2)
         
     def get_action(self, b):
         if self.ψ.get(tuple(b)) is None:
             for i in reversed(range(len(self.η_thresholds))):
                 η = int(self.η_thresholds[i])
-                val = self.get_mean(b) - self.q * self.get_sd(b)
+                val = self.mean(b) - self.q * self.std(b)
                 if val >= η:
                     self.ψ[tuple(b)] = self.A[i+1]
                     break
